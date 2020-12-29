@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    >
+
+    <TextView
+        android:id="@+id/tv_block_producer_title"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/producer" />
+
+    <TextView
+        android:id="@+id/tv_block_producer_content"
+        style="@style/TextAppearance.AppCompat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="@id/tv_block_producer_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_block_producer_title"
+        android:layout_marginTop="4dp"
+        tools:text="@tools:sample/first_names" />
+
+    <View
+        android:id="@+id/divider_1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#1f000000"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/tv_block_producer_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_block_producer_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_block_transaction_title"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintStart_toStartOf="@id/divider_1"
+        app:layout_constraintTop_toBottomOf="@id/divider_1"
+        android:layout_marginTop="8dp"
+        android:text="@string/transaction_number" />
+
+    <TextView
+        android:id="@+id/tv_block_transaction_number"
+        style="@style/TextAppearance.AppCompat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="@id/tv_block_transaction_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_block_transaction_title"
+        android:layout_marginTop="4dp"
+        tools:text="@tools:sample/first_names" />
+
+    <View
+        android:id="@+id/divider_2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#1f000000"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/tv_block_transaction_number"
+        app:layout_constraintTop_toBottomOf="@id/tv_block_transaction_number"
+        />
+
+    <TextView
+        android:id="@+id/tv_block_producer_signature_title"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintStart_toStartOf="@id/divider_2"
+        app:layout_constraintTop_toBottomOf="@id/divider_2"
+        android:layout_marginTop="8dp"
+        android:text="@string/producer_signature" />
+
+    <TextView
+        android:id="@+id/tv_block_producer_signature"
+        style="@style/TextAppearance.AppCompat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_block_producer_signature_title"
+        android:layout_marginTop="4dp"
+        tools:text="@tools:sample/first_names" />
+
+    <View
+        android:id="@+id/divider_3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#1f000000"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/tv_block_producer_signature"
+        app:layout_constraintTop_toBottomOf="@id/tv_block_producer_signature"
+        />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_raw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/divider_3"
+        app:layout_constraintTop_toBottomOf="@id/divider_3"
+        android:layout_marginTop="8dp"
+        android:text="@string/raw_block"
+        android:fontFamily="sans-serif"
+        style="@style/TextAppearance.AppCompat"
+        />
+
+    <TextView
+        android:id="@+id/tv_block_raw_content"
+        style="@style/TextAppearance.AppCompat"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switch_raw"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="4dp"
+        android:background="#1f000000"
+        android:padding="8dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="{json}" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

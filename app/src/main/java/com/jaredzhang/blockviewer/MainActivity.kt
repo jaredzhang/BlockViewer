@@ -1,11 +1,8 @@
 package com.jaredzhang.blockviewer
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -19,6 +16,7 @@ import com.jaredzhang.blockviewer.databinding.ActivityMainBinding
 import com.jaredzhang.blockviewer.databinding.ItemBlockBinding
 import com.jaredzhang.blockviewer.ui.blocklist.BlockListViewModel
 import com.jaredzhang.blockviewer.ui.blocklist.ViewState
+import com.jaredzhang.blockviewer.ui.detail.BlockDetailActivity
 import com.jaredzhang.blockviewer.utils.ViewModelFactory
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.FlowPreview
@@ -32,8 +30,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: BlockListViewModel
-
-    private lateinit var viewBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this);
@@ -49,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.rvBlockList.layoutManager = LinearLayoutManager(this)
         val adapter = BlockListAdapter {
-            // TODO
+            startActivity(BlockDetailActivity.getIntent(this, it.blockNum ?: 0))
         }
         binding.rvBlockList.adapter = adapter
 

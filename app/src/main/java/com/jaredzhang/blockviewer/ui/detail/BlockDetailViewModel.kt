@@ -1,50 +1,42 @@
-package com.jaredzhang.blockviewer.ui.blocklist
+package com.jaredzhang.blockviewer.ui.detail
 
-import android.util.Log
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.GsonBuilder
 import com.jaredzhang.blockviewer.api.BlockInfo
 import com.jaredzhang.blockviewer.repository.ChainRepository
 import com.jaredzhang.blockviewer.repository.Result
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @FlowPreview
-class BlockListViewModel @Inject constructor(
+class BlockDetailViewModel @Inject constructor(
     private val repository: ChainRepository
 ): ViewModel(
 ) {
-
-    companion object {
-        const val RECENT_BLOCKS = 20;
-    }
-
     private val internalViewState = MutableLiveData<ViewState>()
+    private var gson = GsonBuilder().setPrettyPrinting().create()
+
     val viewState: LiveData<ViewState>
         get() = internalViewState
 
-    fun fetchBlocks() {
+    fun fetchBlockDetail(blockNum: Long) {
         viewModelScope.launch {
-            val list = repository.getRecentBlocks(RECENT_BLOCKS)
+            repository.getBlock(blockNum)
                 .onStart { internalViewState.value = ViewState.Loading }
-                .filterIsInstance<Result.Success<BlockInfo>>()
-                .map { it.data }
-                .toList()
-
-            if (list.isEmpty()) {
-                internalViewState.value = ViewState.Error(Throwable("Could not fetch blocks"))
-            } else {
-                internalViewState.value = ViewState.DataLoaded(list)
-            }
+                .collect { result ->
+                    when(result) {
+                        is Result.Success -> {
+                            internalViewState.value = ViewState.DataLoaded(result.data, gson.toJson(result.data))
+                        }
+                        is Result.Error -> internalViewState.value = ViewState.Error(result.error)
+                    }
+                }
         }
     }
 
@@ -52,6 +44,6 @@ class BlockListViewModel @Inject constructor(
 
 sealed class ViewState {
     object Loading : ViewState()
-    data class DataLoaded(val blocks: List<BlockInfo>) : ViewState()
+    data class DataLoaded(val block: BlockInfo, val rawValue: String) : ViewState()
     data class Error(val error: Throwable) : ViewState()
 }

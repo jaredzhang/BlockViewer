@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">BlockViewer</string>
     <string name="error_get_blocks">Error fetching, Please try again.</string>
+    <string name="error_get_block">Could not get block info, Please try again.</string>
+    <string name="producer">Producer</string>
+    <string name="transaction_number">Transaction Number</string>
+    <string name="producer_signature">Producer Signature</string>
+    <string name="raw_block">Raw Block</string>
 </resources>
