@@ -4,7 +4,6 @@ import com.jaredzhang.blockviewer.api.BlockInfo
 import com.jaredzhang.blockviewer.api.BlockRequest
 import com.jaredzhang.blockviewer.api.ChainService
 import com.jaredzhang.blockviewer.utils.CoroutinesDispatcherProvider
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -13,8 +12,12 @@ import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
+import kotlin.math.max
 
-class ChainRepository @Inject constructor(private val chainService: ChainService, private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider) {
+class ChainRepository @Inject constructor(
+    private val chainService: ChainService,
+    private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
+) {
 
     @FlowPreview
     fun getRecentBlocks(lastCount: Int): Flow<Result<BlockInfo>> {
@@ -39,7 +42,7 @@ class ChainRepository @Inject constructor(private val chainService: ChainService
     private fun getLatestBlockNum(lastCount: Int): Flow<Long> {
         return flow {
                 val latestBlockNum = chainService.info().headBlockNum ?: 0
-                (latestBlockNum downTo Math.max(1, latestBlockNum - lastCount + 1)).map { blockNum ->
+                (latestBlockNum downTo max(1, latestBlockNum - lastCount + 1)).map { blockNum ->
                     emit(blockNum)
                 }
             }

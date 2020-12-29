@@ -25,16 +25,16 @@ class BlockDetailViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule(TestCoroutineDispatcher())
 
-    private val repostiory: ChainRepository = mock()
+    private val repository: ChainRepository = mock()
 
-    private val viewModel = BlockDetailViewModel(repostiory)
+    private val viewModel = BlockDetailViewModel(repository)
 
     private var gson = GsonBuilder().setPrettyPrinting().create()
 
     @Test
     fun testErrorStateIfAllErrorResult() {
         // Given
-        repostiory.stub {
+        repository.stub {
             onBlocking { getBlock(1000) }.thenReturn(listOf(Result.Error("error", Throwable("error"))).asFlow())
         }
 
@@ -57,7 +57,7 @@ class BlockDetailViewModelTest {
     fun testLoadedStateIfSuccess() {
         // Given
         val data = BlockInfo(blockNum = 1000)
-        repostiory.stub {
+        repository.stub {
             onBlocking { getBlock(1000) }.thenReturn(listOf(Result.Success(
                 data)).asFlow())
         }

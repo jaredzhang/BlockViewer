@@ -5,7 +5,9 @@ import com.jaredzhang.blockviewer.App
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
 @ApplicationScope
 @Component(
     modules = [

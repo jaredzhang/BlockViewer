@@ -20,7 +20,6 @@ import com.jaredzhang.blockviewer.ui.detail.BlockDetailActivity
 import com.jaredzhang.blockviewer.utils.ViewModelFactory
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.FlowPreview
-import java.text.NumberFormat
 import javax.inject.Inject
 
 @FlowPreview
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: BlockListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this);
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -102,10 +101,6 @@ class BlockItemViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var blockInfo: BlockInfo? = null
-
-    companion object {
-        val numberFormat: NumberFormat = NumberFormat.getNumberInstance()
-    }
 
     init {
         itemView.setOnClickListener {

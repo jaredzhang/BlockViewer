@@ -1,7 +1,5 @@
 package com.jaredzhang.blockviewer.ui.blocklist
 
-import android.util.Log
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +10,6 @@ import com.jaredzhang.blockviewer.repository.Result
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -25,7 +22,7 @@ class BlockListViewModel @Inject constructor(
 ) {
 
     companion object {
-        const val RECENT_BLOCKS = 20;
+        const val RECENT_BLOCKS = 20
     }
 
     private val internalViewState = MutableLiveData<ViewState>()

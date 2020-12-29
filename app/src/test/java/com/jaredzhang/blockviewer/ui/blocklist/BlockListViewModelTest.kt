@@ -25,14 +25,14 @@ class BlockListViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule(TestCoroutineDispatcher())
 
-    private val repostiory: ChainRepository = mock()
+    private val repository: ChainRepository = mock()
 
-    private val viewModel = BlockListViewModel(repostiory)
+    private val viewModel = BlockListViewModel(repository)
 
     @Test
     fun testErrorStateIfEmptyResult() {
         // Given
-        repostiory.stub {
+        repository.stub {
             onBlocking { getRecentBlocks(20) }.thenReturn(emptyFlow())
         }
 
@@ -54,7 +54,7 @@ class BlockListViewModelTest {
     @Test
     fun testErrorStateIfAllErrorResult() {
         // Given
-        repostiory.stub {
+        repository.stub {
             onBlocking { getRecentBlocks(20) }.thenReturn(listOf(Result.Error("error", Throwable("error"))).asFlow())
         }
 
@@ -77,7 +77,7 @@ class BlockListViewModelTest {
     fun testLoadedStateIfSuccess() {
         // Given
         val data = listOf(BlockInfo(blockNum = 111))
-        repostiory.stub {
+        repository.stub {
             onBlocking { getRecentBlocks(20) }.thenReturn(listOf(Result.Success(
                 data[0])).asFlow())
         }
