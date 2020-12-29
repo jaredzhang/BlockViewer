@@ -3,6 +3,7 @@ package com.jaredzhang.blockviewer.ui.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,8 @@ class BlockDetailActivity : AppCompatActivity() {
                 binding.tvBlockRawContent.visibility = View.GONE
             }
         }
+
+        binding.tvBlockRawContent.movementMethod = ScrollingMovementMethod()
 
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(BlockDetailViewModel::class.java)

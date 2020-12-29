@@ -136,6 +136,7 @@
         android:padding="8dp"
         android:visibility="gone"
         tools:visibility="visible"
+        android:scrollbars = "vertical"
         tools:text="{json}" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
