@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BlockViewer</string>
+    <string name="error_get_blocks">Error fetching, Please try again.</string>
 </resources>

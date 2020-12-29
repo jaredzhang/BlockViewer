@@ -15,11 +15,11 @@ data class ChainInfo(
 
     @SerializedName("head_block_num")
     @Expose
-    val headBlockNum: Int? = null,
+    val headBlockNum: Long? = null,
 
     @SerializedName("last_irreversible_block_num")
     @Expose
-    val lastIrreversibleBlockNum: Int? = null,
+    val lastIrreversibleBlockNum: Long? = null,
 
     @SerializedName("last_irreversible_block_id")
     @Expose
@@ -39,19 +39,19 @@ data class ChainInfo(
 
     @SerializedName("virtual_block_cpu_limit")
     @Expose
-    val virtualBlockCpuLimit: Int? = null,
+    val virtualBlockCpuLimit: Long? = null,
 
     @SerializedName("virtual_block_net_limit")
     @Expose
-    val virtualBlockNetLimit: Int? = null,
+    val virtualBlockNetLimit: Long? = null,
 
     @SerializedName("block_cpu_limit")
     @Expose
-    val blockCpuLimit: Int? = null,
+    val blockCpuLimit: Long? = null,
 
     @SerializedName("block_net_limit")
     @Expose
-    val blockNetLimit: Int? = null,
+    val blockNetLimit: Long? = null,
 
     @SerializedName("server_version_string")
     @Expose
@@ -59,7 +59,7 @@ data class ChainInfo(
 
     @SerializedName("fork_db_head_block_num")
     @Expose
-    val forkDbHeadBlockNum: Int? = null,
+    val forkDbHeadBlockNum: Long? = null,
 
     @SerializedName("fork_db_head_block_id")
     @Expose
@@ -97,7 +97,7 @@ data class BlockInfo (
 
     @SerializedName("schedule_version")
     @Expose
-    val scheduleVersion: Int? = null,
+    val scheduleVersion: Long? = null,
 
     @SerializedName("new_producers")
     @Expose
@@ -117,9 +117,9 @@ data class BlockInfo (
 
     @SerializedName("block_num")
     @Expose
-    val blockNum: Int? = null,
+    val blockNum: Long? = null,
 
     @SerializedName("ref_block_prefix")
     @Expose
-    val refBlockPrefix: Int? = null
+    val refBlockPrefix: Long? = null
 )

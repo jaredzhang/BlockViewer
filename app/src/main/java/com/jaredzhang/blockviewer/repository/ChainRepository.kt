@@ -26,7 +26,7 @@ class ChainRepository @Inject constructor(private val chainService: ChainService
             .flowOn(coroutinesDispatcherProvider.io)
     }
 
-    fun getBlock(blockNum: Int): Flow<Result<BlockInfo>> {
+    fun getBlock(blockNum: Long): Flow<Result<BlockInfo>> {
         return flow <Result<BlockInfo>> {
                 emit(Result.Success(chainService.block(BlockRequest(blockNum))))
             }
@@ -36,7 +36,7 @@ class ChainRepository @Inject constructor(private val chainService: ChainService
             }
     }
 
-    private fun getLatestBlockNum(lastCount: Int): Flow<Int> {
+    private fun getLatestBlockNum(lastCount: Int): Flow<Long> {
         return flow {
                 val latestBlockNum = chainService.info().headBlockNum ?: 0
                 (latestBlockNum downTo Math.max(1, latestBlockNum - lastCount + 1)).map { blockNum ->
