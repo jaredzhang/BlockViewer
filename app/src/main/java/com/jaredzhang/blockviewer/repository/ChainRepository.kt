@@ -3,6 +3,7 @@ package com.jaredzhang.blockviewer.repository
 import com.jaredzhang.blockviewer.api.BlockInfo
 import com.jaredzhang.blockviewer.api.BlockRequest
 import com.jaredzhang.blockviewer.api.ChainService
+import com.jaredzhang.blockviewer.utils.CoroutinesDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -11,8 +12,9 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
-class ChainRepository constructor(private val chainService: ChainService, private val coroutineDispatcher: CoroutineDispatcher) {
+class ChainRepository @Inject constructor(private val chainService: ChainService, private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider) {
 
     @FlowPreview
     fun getRecentBlocks(lastCount: Int): Flow<Result<BlockInfo>> {
@@ -21,14 +23,14 @@ class ChainRepository constructor(private val chainService: ChainService, privat
                 if (blockNum <= 0) emptyFlow()
                 else getBlock(blockNum)
             }
-            .flowOn(coroutineDispatcher)
+            .flowOn(coroutinesDispatcherProvider.io)
     }
 
     fun getBlock(blockNum: Int): Flow<Result<BlockInfo>> {
         return flow <Result<BlockInfo>> {
                 emit(Result.Success(chainService.block(BlockRequest(blockNum))))
             }
-            .flowOn(coroutineDispatcher)
+            .flowOn(coroutinesDispatcherProvider.io)
             .catch { error ->
                 emit(Result.Error("could not get block info", error))
             }
@@ -41,7 +43,7 @@ class ChainRepository constructor(private val chainService: ChainService, privat
                     emit(blockNum)
                 }
             }
-            .flowOn(coroutineDispatcher)
+            .flowOn(coroutinesDispatcherProvider.io)
             .catch {
                 emit(0)
             }

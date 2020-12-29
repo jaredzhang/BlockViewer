@@ -14,9 +14,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @FlowPreview
-class BlockListViewModel constructor(
+class BlockListViewModel @Inject constructor(
     private val repository: ChainRepository
 ): ViewModel(
 ) {
