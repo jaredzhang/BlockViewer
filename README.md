@@ -19,6 +19,14 @@ The list is sorted in reverse chronological order, the most recent block will ap
 
 #### Screen Record
 
+* Happy
+
+![](screenshots/happy.gif)
+
+* Sad
+
+![](screenshots/sad.gif)
+
 #### Reference
 [Android Paging Sample](https://github.com/googlecodelabs/android-paging)
 
