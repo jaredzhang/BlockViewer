@@ -7,7 +7,6 @@ import com.jaredzhang.blockviewer.api.ChainService
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
@@ -25,23 +24,17 @@ class ChainPagingSource @Inject constructor(
                 error = LoadResult.Error(it)
             }
             .toList()
-        return error ?: LoadResult.Page(blocks, null, blocks.lastOrNull()?.blockNum)
+        return error ?: LoadResult.Page(blocks, null, (blocks.lastOrNull()?.blockNum ?: 0)- 1)
     }
 
     private fun getBlocks(lastBlockNum: Long?, pageSize: Int): Flow<BlockInfo> {
         return getBlockNumbers(pageSize) { lastBlockNum ?: chainService.info().headBlockNum ?: 0 }
-            .flatMapConcat { blockNum ->
-                if (blockNum <= 0) emptyFlow()
-                else getBlock(blockNum)
-            }
+            .flatMapConcat { getBlock(it) }
     }
 
     private fun getBlock(blockNum: Long): Flow<BlockInfo> {
         return flow {
                 emit(chainService.block(BlockRequest(blockNum)))
-            }
-            .catch {
-                // do nothing
             }
     }
 

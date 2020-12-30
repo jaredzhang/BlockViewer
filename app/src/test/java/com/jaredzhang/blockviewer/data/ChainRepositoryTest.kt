@@ -1,10 +1,7 @@
-package com.jaredzhang.blockviewer.repository
+package com.jaredzhang.blockviewer.data
 
 import com.jaredzhang.blockviewer.api.BlockInfo
-import com.jaredzhang.blockviewer.api.ChainInfo
 import com.jaredzhang.blockviewer.api.ChainService
-import com.jaredzhang.blockviewer.data.ChainRepository
-import com.jaredzhang.blockviewer.data.Result
 import com.jaredzhang.blockviewer.utils.CoroutinesDispatcherProvider
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
@@ -13,7 +10,6 @@ import com.nhaarman.mockitokotlin2.stub
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
@@ -31,28 +27,7 @@ class ChainRepositoryTest {
     )
 
     private val chainRepository = ChainRepository(
-        chainService, dispatcherProvider)
-
-    @Test
-    fun testGetRecentBlocks() = dispatcher.runBlockingTest {
-        // Given
-        val expected = listOf(
-            Result.Success(BlockInfo(blockNum = 1000)),
-            Result.Success(BlockInfo(blockNum = 9999)),
-            Result.Success(BlockInfo(blockNum = 9998))
-        )
-
-        chainService.stub {
-            onBlocking { info() }.thenReturn(ChainInfo(headBlockNum = 1000))
-            onBlocking { block(any()) }.thenReturn(expected[0].data, expected[1].data, expected[2].data)
-        }
-
-        // When
-        val got = chainRepository.getRecentBlocks(3).toList()
-
-        // Then
-        kotlin.test.assertEquals(expected, got)
-    }
+        chainService, mock(), dispatcherProvider)
 
     @Test
     fun testGetBlock() = dispatcher.runBlockingTest {
@@ -83,26 +58,6 @@ class ChainRepositoryTest {
 
         // Then
         kotlin.test.assertEquals(expected, got)
-    }
-
-    @Test
-    fun testGetRecentBlocksShouldBeEmptyIfError() = dispatcher.runBlockingTest {
-        // Given
-        val blocks = listOf(
-            Result.Success(BlockInfo(blockNum = 1000)),
-            Result.Success(BlockInfo(blockNum = 9999)),
-            Result.Success(BlockInfo(blockNum = 9998))
-        )
-        chainService.stub {
-            onBlocking { info() }.thenAnswer {  throw Exception("Error happened") }
-            onBlocking { block(any()) }.thenReturn(blocks[0].data, blocks[1].data, blocks[2].data)
-        }
-
-        // When
-        val got = chainRepository.getRecentBlocks(3).toList()
-
-        // Then
-        kotlin.test.assertEquals(emptyList(), got)
     }
 
     @Test

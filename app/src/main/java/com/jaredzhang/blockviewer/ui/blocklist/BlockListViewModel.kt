@@ -1,7 +1,5 @@
 package com.jaredzhang.blockviewer.ui.blocklist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -18,19 +16,9 @@ class BlockListViewModel @Inject constructor(
 ): ViewModel(
 ) {
 
-    private val internalViewState = MutableLiveData<ViewState>()
-    val viewState: LiveData<ViewState>
-        get() = internalViewState
-
     fun fetchBlocks(): Flow<PagingData<BlockInfo>> {
         return repository.getBlocks()
             .cachedIn(viewModelScope)
     }
 
-}
-
-sealed class ViewState {
-    object Loading : ViewState()
-    data class DataLoaded(val blocks: List<BlockInfo>) : ViewState()
-    data class Error(val error: Throwable) : ViewState()
 }
