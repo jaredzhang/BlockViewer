@@ -1,11 +1,14 @@
 package com.jaredzhang.blockviewer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +23,10 @@ import dagger.android.AndroidInjection
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,6 +59,33 @@ class MainActivity : AppCompatActivity() {
             startActivity(BlockDetailActivity.getIntent(this, it.blockNum ?: 0))
         }
         binding.rvBlockList.adapter = adapter
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                when(loadStates.refresh) {
+                    is LoadState.Loading -> {
+                        binding.swipeRefresh.isRefreshing = true
+                    }
+                    is LoadState.Error -> {
+                        Toast.makeText(applicationContext, R.string.error_get_blocks, Toast.LENGTH_LONG).show()
+                        binding.swipeRefresh.isRefreshing = false
+                    }
+                    is LoadState.NotLoading -> {
+                        binding.swipeRefresh.isRefreshing = false
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            // Scroll to top when the list is refreshed from network.
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.rvBlockList.scrollToPosition(0) }
+        }
 
         fetch()
     }
