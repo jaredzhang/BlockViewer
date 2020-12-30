@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.GsonBuilder
 import com.jaredzhang.blockviewer.api.BlockInfo
-import com.jaredzhang.blockviewer.repository.ChainRepository
-import com.jaredzhang.blockviewer.repository.Result
+import com.jaredzhang.blockviewer.data.ChainRepository
+import com.jaredzhang.blockviewer.data.Result
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart

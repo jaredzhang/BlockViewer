@@ -2,8 +2,8 @@ package com.jaredzhang.blockviewer.ui.blocklist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jaredzhang.blockviewer.api.BlockInfo
-import com.jaredzhang.blockviewer.repository.ChainRepository
-import com.jaredzhang.blockviewer.repository.Result
+import com.jaredzhang.blockviewer.data.ChainRepository
+import com.jaredzhang.blockviewer.data.Result
 import com.jaredzhang.blockviewer.rule.CoroutineRule
 import com.jaredzhang.blockviewer.utils.captureValues
 import com.nhaarman.mockitokotlin2.mock
@@ -55,7 +55,8 @@ class BlockListViewModelTest {
     fun testErrorStateIfAllErrorResult() {
         // Given
         repository.stub {
-            onBlocking { getRecentBlocks(20) }.thenReturn(listOf(Result.Error("error", Throwable("error"))).asFlow())
+            onBlocking { getRecentBlocks(20) }.thenReturn(listOf(
+                Result.Error("error", Throwable("error"))).asFlow())
         }
 
         // When
@@ -78,7 +79,8 @@ class BlockListViewModelTest {
         // Given
         val data = listOf(BlockInfo(blockNum = 111))
         repository.stub {
-            onBlocking { getRecentBlocks(20) }.thenReturn(listOf(Result.Success(
+            onBlocking { getRecentBlocks(20) }.thenReturn(listOf(
+                Result.Success(
                 data[0])).asFlow())
         }
 

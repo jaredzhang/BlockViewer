@@ -3,6 +3,8 @@ package com.jaredzhang.blockviewer.repository
 import com.jaredzhang.blockviewer.api.BlockInfo
 import com.jaredzhang.blockviewer.api.ChainInfo
 import com.jaredzhang.blockviewer.api.ChainService
+import com.jaredzhang.blockviewer.data.ChainRepository
+import com.jaredzhang.blockviewer.data.Result
 import com.jaredzhang.blockviewer.utils.CoroutinesDispatcherProvider
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
@@ -28,7 +30,8 @@ class ChainRepositoryTest {
         io = dispatcher
     )
 
-    private val chainRepository = ChainRepository(chainService, dispatcherProvider)
+    private val chainRepository = ChainRepository(
+        chainService, dispatcherProvider)
 
     @Test
     fun testGetRecentBlocks() = dispatcher.runBlockingTest {
